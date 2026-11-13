@@ -68,7 +68,7 @@ app/src/test/java/ai/tailguard/core/   단위 테스트 30건
 
 - 요구: JDK 17, Android SDK 36, Pleos Connect Emulator v2.1.0 (AVD)
 - `gradlew testDebugUnitTest assembleRelease`
-- 설치: `adb install -r -g apk/팀명_TailGuard_release.apk` (`-g` 로 차량·내비·TTS 권한 일괄 부여)
+- 설치: `adb install -r -g apk/SKAI_4_TailGuard_release.apk` (`-g` 로 차량·내비·TTS 권한 일괄 부여)
 - 상단 [▶ 시연]: 차량 신호 없이 전체 흐름 재생 (정차 후 후방 시연 영상으로 ④⑤ 판정). 에뮬레이터는 인식이 느려(프레임당 약 0.4초) 후방 구간이 실제보다 느리게 재생되며, 판정은 영상 속 시각 기준이라 결과는 같다.
 - 상단 [설정]: 후방 감지 설정 3가지. [로그]: 동작·제어 결과 기록.
 - 검증 입력: 앱 전용 폴더 `files/rear_test/NNN.jpg`(10fps, 선택 `hfov.txt` = 카메라 수평 화각)에 프레임을 넣으면 시연이 그 영상으로 판정한다.
