@@ -11,6 +11,7 @@ import ai.tailguard.core.Seat
 import ai.tailguard.core.TailGuardEngine
 import ai.tailguard.ui.DashState
 import ai.tailguard.ui.DashboardView
+import ai.tailguard.vehicle.AlarmPlayer
 import ai.tailguard.vehicle.CarSpeedSource
 import ai.tailguard.vehicle.Device
 import ai.tailguard.vehicle.NaviTrafficSource
@@ -34,6 +35,7 @@ class MainActivity : Activity() {
     private val dash = DashState()
 
     private var speaker: Speaker? = null
+    private var alarm: AlarmPlayer? = null
     private var gateway: PleosVehicleGateway? = null
     private var speed: CarSpeedSource? = null
     private var traffic: NaviTrafficSource? = null
@@ -69,6 +71,7 @@ class MainActivity : Activity() {
             main.post { dash.rearSourceLabel = clip.sourceLabel }
         }
         speaker = Speaker(this, ::log).also { it.start() }
+        alarm = AlarmPlayer(::log)
         gateway = runCatching { PleosVehicleGateway(this, { engine }, ::log, ::onControlResult, { !dash.demoRunning }).also { it.start() } }
             .onFailure { log("Pleos Vehicle 연결 실패: ${it.message}") }
             .getOrNull()
@@ -93,6 +96,7 @@ class MainActivity : Activity() {
         traffic?.stop()
         gateway?.stop()
         speaker?.release()
+        alarm?.release()
         rearWorker.post { detector?.close() }
         rearThread.quitSafely()
         super.onDestroy()
@@ -108,7 +112,10 @@ class MainActivity : Activity() {
                 speaker?.speak(a.text, a.urgent)
             }
             is Action.Guidance -> dash.guidance = a.text
-            is Action.RearApproachWarning -> log("⚠ 후방 ${a.kind.label} 급접근 — 충돌까지 %.1f초".format(a.ttcS))
+            is Action.RearApproachWarning -> {
+                alarm?.play() // 음성보다 먼저: 짧은 경보음
+                log("⚠ 후방 ${a.kind.label} 급접근 — 충돌까지 %.1f초".format(a.ttcS))
+            }
             is Action.CollisionCertain -> {
                 log("■ 충돌 확실 — 충돌까지 %.1f초, 뒤차 필요 감속도 %.1f m/s²".format(a.ttcS, a.requiredDecel))
                 val riders = Seat.entries.filter { engine.isOccupied(it) }.toSet()
