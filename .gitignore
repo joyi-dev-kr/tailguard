@@ -1,0 +1,18 @@
+.gradle/
+.kotlin/
+build/
+app/build/
+local.properties
+*.log
+build_log.txt
+build_err.txt
+.idea/
+*.iml
+# 원본 녹화는 용량이 커서 저장소 대신 영상 링크로 제출
+submission/video/
+# 공모전 제출 작업 폴더(초안·양식·메일)는 저장소에 넣지 않음 — 이메일로 제출
+submission/
+# 이전 기획 초안 (현재 방향과 다름)
+docs/기획서_초안_TailGuard.md
+.gradle/
+.kotlin/

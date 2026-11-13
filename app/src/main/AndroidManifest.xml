@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 차속 (AAOS 표준 Car API) -->
+    <uses-permission android:name="android.car.permission.CAR_SPEED" />
+
+    <!-- 읽기: 브레이크·기어(DRIVE), 좌석 착석·벨트(SEATS), 에어백(SAFETY), 조명·방향지시등(LIGHTS) -->
+    <uses-permission android:name="pleos.car.permission.CAR_DRIVE" />
+    <uses-permission android:name="pleos.car.permission.CAR_SEATS" />
+    <uses-permission android:name="pleos.car.permission.CAR_SAFETY" />
+    <uses-permission android:name="pleos.car.permission.CAR_LIGHTS" />
+    <uses-permission android:name="pleos.car.permission.CAR_INFO" />
+    <!-- 도어 잠금·창문 위치 지원 영역 조회(capabilities)에 필요 -->
+    <uses-permission android:name="pleos.car.permission.CAR_DOORS" />
+    <uses-permission android:name="pleos.car.permission.CAR_WINDOWS" />
+
+    <!-- 제어: 후미등·후방안개등·실내등, 도어 잠금, 창문, 등받이 -->
+    <uses-permission android:name="pleos.car.permission.CONTROL_CAR_LIGHTS" />
+    <uses-permission android:name="pleos.car.permission.CONTROL_CAR_DOORS" />
+    <uses-permission android:name="pleos.car.permission.CONTROL_CAR_WINDOWS" />
+    <uses-permission android:name="pleos.car.permission.CONTROL_CAR_SEATS" />
+    <!-- 음성 안내: Pleos TTS (CAAS) -->
+    <uses-permission android:name="pleos.car.permission.TTS_SERVICE" />
+    <!-- 전방 정체 예고: 내비 경로 상태(교통정보) 조회 getRouteStateInfo -->
+    <uses-permission android:name="pleos.car.permission.NAVI_ROUTE" />
+
+    <uses-feature android:name="android.hardware.type.automotive" android:required="false" />
+
+    <application
+        android:label="TailGuard"
+        android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

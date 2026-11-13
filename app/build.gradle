@@ -1,0 +1,33 @@
+plugins { id 'com.android.application' }
+
+android {
+    namespace 'ai.tailguard'
+    compileSdk 36
+    // AAOS Car API (차속 PERF_VEHICLE_SPEED). Pleos Vehicle SDK 에는 차속 도메인이 없음
+    useLibrary 'android.car'
+    defaultConfig {
+        applicationId 'ai.tailguard'
+        minSdk 28
+        targetSdk 36
+        versionCode 1
+        versionName '0.1.0'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    buildTypes { release { minifyEnabled false; signingConfig signingConfigs.debug } }
+    // 차량 인식 모델·후방 시연 영상은 압축하지 않고 넣어 바로 읽는다
+    androidResources { noCompress += ['tflite'] }
+}
+
+dependencies {
+    implementation 'ai.pleos.playground:Vehicle:2.3.2'
+    // Pleos 이미지에는 안드로이드 기본 TTS 엔진이 없어 Pleos TTS(CAAS) 사용, 없으면 안드로이드 TTS 폴백
+    implementation 'ai.pleos.playground:TextToSpeech:3.3.1'
+    // 전방 정체 예고: 내비 경로 교통정보 (ADAS SDK 는 아직 미공개)
+    implementation 'ai.pleos.playground:NaviHelper:3.0.5'
+    // 후방 대형차 접근 감지: 기기 내 차량 인식 (EfficientDet-Lite0, assets/efficientdet_lite0.tflite)
+    implementation 'org.tensorflow:tensorflow-lite:2.16.1'
+    testImplementation 'junit:junit:4.13.2'
+}
